@@ -1,0 +1,85 @@
+﻿@model IEnumerable<BlogPostVM>
+
+@{
+    ViewData["Title"] = "GetData";
+    Layout = "~/Views/Layout/MainLayout.cshtml";
+}
+
+
+<style>
+    tbody, thead, tr, th, td {
+        text-align: center !important;
+    }
+</style>
+<section class="ftco-section">
+    <div class="container">
+        <div>
+            <div>
+                <form asp-controller="BlogPost" asp-action="GetData" class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" placeholder="Search by title" class="form-control" name="titlesearch" />
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="submit" value="Search" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br />
+            <br />
+            <div id="datasearch">
+                <table class="table table-bordered table-striped table-hover font-weight-bold">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Auther Name</th>
+                            <th>CreatedDate</th>
+                            <th>Details</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.AutherName</td>
+                                <td>@item.CreatedDate.ToLongDateString()</td>
+                                <td><a asp-controller="BlogPost" asp-action="Detalis" asp-route-id="@item.Id" class="btn btn-success">Details</a></td>
+                                <td><a asp-controller="BlogPost" asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">Update</a></td>
+                                <td><a asp-controller="BlogPost" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section AjaxSearch{
+    <script>
+        $(document).ready(function () {
+            $('#searchform').submit(function (e) {
+                e.preventDefault();
+                var query = $('#titlesearch').val();
+        
+                $.ajax({
+                    url: '@Url.Action("GetData", "BlogPost")',  
+                    type: 'GET',
+                    data: { title: query },  
+                    success: function (result) {
+                                        $('#datasearch').html(result);
+                        },
+                    error: function () {
+                        alert("An error occurred while searching. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
