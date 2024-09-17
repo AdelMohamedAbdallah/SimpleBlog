@@ -17,7 +17,6 @@ namespace SimpleBlog.BLL.Repository
 
         public async Task CreateAsync(BlogPost blogPost)
         {
-            blogPost.CreatedDate = DateTime.Now;
             await db.BlogPosts.AddAsync(blogPost);
             await db.SaveChangesAsync();
         }
