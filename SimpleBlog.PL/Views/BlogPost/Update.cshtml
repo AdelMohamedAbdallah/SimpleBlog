@@ -62,6 +62,7 @@
             <form asp-controller="BlogPost" asp-action="Update" class="form-group">
                 <br />
                 <input asp-for="Id" type="hidden" class="form-control" />
+                <input asp-for="CreatedDate" type="hidden" class="form-control" />
                 <label asp-for="Title">Title</label>
                 <br />
                 <input type="text" asp-for="Title" placeholder="Enter Title Max 100 Character" class="form-control" />
