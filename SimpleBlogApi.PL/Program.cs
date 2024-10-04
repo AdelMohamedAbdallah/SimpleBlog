@@ -25,6 +25,8 @@ builder.Services.AddAutoMapper(mapper => mapper.AddProfile(new DomainProfile()))
 
 builder.Services.AddScoped<IBlogRepo, BlogRepo>();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +36,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(option =>
+option.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader());
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
